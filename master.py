@@ -67,6 +67,7 @@ def getJacc(files, names, lvl):
 # Writes out the output to a CSV file
 def writeOut(info, fileName):
     with open(fileName, 'w') as filew:
+        filew.write("#Sample_1,Sample_2,Jaccard_Similarity\n")
         for entry in info:
             filew.write(",".join(entry) + "\n")
         
