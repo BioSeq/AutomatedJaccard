@@ -21,15 +21,17 @@ def main():
     sampleNames = getSampleNames(files)
 
     jaccGenus = getJacc(files, sampleNames, "Genus")
-    print jaccGenus
     jaccSpec = getJacc(files, sampleNames, "Species")
-    print jaccSpec
-    exit()
+
+    writeOut(jaccGenus, GENUS_OUT)
+    writeOut(jaccSpec, SPEC_OUT)
+
+    print "Genus output written to:", GENUS_OUT
+    print "Species output written to:", SPEC_OUT
+
+    exit(0)
 
 
-    val = float(sp.check_output([SCRIPT, files[0], files[0], "Genus"]))
-    print "The val is:", val
-    print type(val)
 
 # Takes a list of Classification files and returns a parallel list of sample
 # names corresponding to those files
@@ -56,10 +58,17 @@ def getJacc(files, names, lvl):
     toReturn = []
     for x in range(len(files)):
         for y in range(x + 1, len(files)):
-            val = float(sp.check_output([SCRIPT, files[x], files[y], lvl]))
+            val = sp.check_output([SCRIPT, files[x], files[y], lvl]).strip()
             toReturn.append([names[x], names[y], val])
 
     return toReturn
+
+
+# Writes out the output to a CSV file
+def writeOut(info, fileName):
+    with open(fileName, 'w') as filew:
+        for entry in info:
+            filew.write(",".join(entry) + "\n")
         
 
 if __name__ == '__main__':
