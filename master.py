@@ -32,7 +32,6 @@ def main():
     exit(0)
 
 
-
 # Takes a list of Classification files and returns a parallel list of sample
 # names corresponding to those files
 def getSampleNames(files):
@@ -42,14 +41,16 @@ def getSampleNames(files):
 
     return toReturn
 
+
 # Dives into file to retrieve name of sample contained within it
 def getName(fi):
     with open(fi, 'Ur') as filer:
         filer.readline()
-        secLine = filer.readline()
+        secLine = filer.readline()  # First line is header, pull from second
         listL = secLine.split("\t")
 
         return listL[1]
+
 
 # Spins off subprocesses using SCRIPT. Returns a list of lists where each list
 # is [SAMP1, SAMP2, Jaccard]
@@ -58,6 +59,8 @@ def getJacc(files, names, lvl):
     toReturn = []
     for x in range(len(files)):
         for y in range(x + 1, len(files)):
+            # SCRIPT actually PRINTS the value out, check_output grabs that
+            # value. It is kept as a string for ease of writing out later
             val = sp.check_output([SCRIPT, files[x], files[y], lvl]).strip()
             toReturn.append([names[x], names[y], val])
 
