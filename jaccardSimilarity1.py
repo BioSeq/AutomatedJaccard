@@ -27,11 +27,7 @@ def main():
     Na = float(len(sample1))
     Nb = float(len(sample2))
     jaccardValue = float(Nc/(Na+Nb-Nc))
-    return jaccardValue
-    #print similarity
-    print "Jaccard Similarity between", argv[1], "and", argv[2], "is:", jaccardValue
-    #print percentages in easy to make bar graph format
-    exit(0)
+    print jaccardValue
 
 
 # Makes sure the level is either "Species" or "Genus" otherwise calls usage
@@ -55,7 +51,7 @@ def usage():
 #creates a dictionary of {genus or species: percentage present in sample}
 def accumulateApproved(classyFile, lvl, minPct):
     sample = {}
-    with open(classyFile, 'r') as filer:
+    with open(classyFile, 'Ur') as filer:
         for line in filer:
             line = line.strip()
             col = line.split("\t")[2:]
